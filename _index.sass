@@ -1,0 +1,42 @@
+@use "sass:map"
+@use "sass:list"
+@use "sass:color"
+
+@function -valid-modifier($mod)
+
+	@return $mod != null and $mod != 1
+
+@function -modify($val, $mod)
+
+	@if not -valid-modifier($mod)
+		@return $val
+	@return if(type-of($val) == number, $val * $mod, calc($val * $mod))
+
+@mixin def($name-or-pack, $color: null, $modifiers: ())
+
+	@if type-of($name-or-pack) == map
+		@each $name, $color in $name-or-pack
+			@if type-of($color) == list
+				@include def($name, list.nth($color, 1), list.nth($color, 2))
+			@else
+				@include def($name, $color)
+
+	@else if $color
+		$is-constant: type-of($color) == color
+
+		$h: if($is-constant, color.hue($color), var(--#{$color}-h))
+		$s: if($is-constant, color.saturation($color), var(--#{$color}-s))
+		$l: if($is-constant, color.lightness($color), var(--#{$color}-l))
+
+		--#{$name-or-pack}-h: #{$h}
+		--#{$name-or-pack}-s: #{-modify($s, map.get($modifiers, "s"))}
+		--#{$name-or-pack}-l: #{-modify($l, map.get($modifiers, "l"))}
+
+@function use($name, $modifiers: ())
+
+	$h: var(--#{$name}-h)
+	$s: -modify(var(--#{$name}-s), map.get($modifiers, "s"))
+	$l: -modify(var(--#{$name}-l), map.get($modifiers, "l"))
+	$a: map.get($modifiers, "a")
+
+	@return if(-valid-modifier($a), hsla($h, $s, $l, $a), hsl($h, $s, $l))

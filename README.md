@@ -1,0 +1,15 @@
+# sass-color-custom-properties
+
+A way to define editable HSLA colors as CSS custom properties
+
+### Usage
+
+```sass
+@use "sass-color-custom-properties" as colorprops
+
+.test
+	@include colorprops.def(test-1, #0cf)
+	@include colorprops.def(test-2, test-1, (s: .7, l: 1.1))
+	@include colorprops.def((test-3: #a75, test-4: test-3 (s: .8)))
+	background-color: colorprops.use(test-2, (s: 1.2, l: .5, a: .97))
+```

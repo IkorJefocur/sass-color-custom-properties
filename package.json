@@ -1,0 +1,29 @@
+{
+  "name": "sass-color-custom-properties",
+  "version": "1.0.0",
+  "description": "A way to define editable HSLA colors as CSS custom properties",
+  "scripts": {
+    "test": "npx sass test.sass test.css --no-source-map"
+  },
+  "keywords": [
+    "sass",
+    "scss",
+    "css",
+    "custom",
+    "properties",
+    "variables",
+    "colors",
+    "hsl",
+    "hsla",
+    "theming"
+  ],
+  "author": "Ikor Jefocur",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IkorJefocur/sass-color-custom-properties"
+  },
+  "peerDependencies": {
+    "sass": "^1.54.0"
+  }
+}
